@@ -124,9 +124,8 @@ class FilterPrunner:
 
 class PrunningFineTuner_VGG16:
     def __init__(self, train_path, test_path, model):
-        self.train_data_loader = dataset.loader(train_path)
-        self.test_data_loader = dataset.test_loader(test_path)
-
+        self.train_data_loader,self.test_data_loader = dataset.data_loader()
+        
         self.model = model
         self.criterion = torch.nn.CrossEntropyLoss()
         self.prunner = FilterPrunner(self.model) 
@@ -240,7 +239,7 @@ class PrunningFineTuner_VGG16:
 
         print("Finished. Going to fine tune the model a bit more")
         self.train(optimizer, epoches=15)
-        torch.save(model.state_dict(), "model_prunned")
+        torch.save(model.state_dict(), "model_prunned.pth")
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -262,7 +261,7 @@ if __name__ == '__main__':
     if args.train:
         model = ModifiedVGG16Model()
     elif args.prune:
-        model = torch.load("model", map_location=lambda storage, loc: storage)
+        model = torch.load("clean_model.pth", map_location=lambda storage, loc: storage)
 
     if args.use_cuda:
         model = model.cuda()
@@ -271,7 +270,7 @@ if __name__ == '__main__':
 
     if args.train:
         fine_tuner.train(epoches=10)
-        torch.save(model, "model")
+        torch.save(model.state_dict(), "clean_model.pth")
 
     elif args.prune:
         fine_tuner.prune()
