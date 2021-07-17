@@ -14,6 +14,7 @@ import argparse
 from operator import itemgetter
 from heapq import nsmallest
 import time
+from tqdm import tqdm
 
 class ModifiedVGG16Model(torch.nn.Module):
     def __init__(self):
