@@ -1,5 +1,5 @@
 # Download the FFHQ dataset from here :
-[Kaggle](https://www.kaggle.com/arnaud58/flickrfaceshq-dataset-ffhq)
+[Kaggle](https://www.kaggle.com/greatgamedota/ffhq-face-data-set)
 
 
 ## PyTorch implementation of  [\[1611.06440 Pruning Convolutional Neural Networks for Resource Efficient Inference\]](https://arxiv.org/abs/1611.06440) ##
