@@ -19,7 +19,9 @@ from torchvision.transforms import transforms
 import matplotlib.pyplot as plt
 import random
 
+
 SIZE = 1000
+
 
 def read_img(path):
     return Image.fromarray(cv2.cvtColor(cv2.imread(path),cv2.COLOR_BGR2RGB))
@@ -63,7 +65,7 @@ def get_random_sampling():
     initial_str = '00000'
     count = 0
     size = 0
-    while(count<=0):
+    while(count<=000):
         ffhq = os.listdir('thumbnails128x128/'+initial_str+'/')
         ffhq = sorted(ffhq)
         

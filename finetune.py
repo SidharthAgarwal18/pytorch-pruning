@@ -133,7 +133,6 @@ class PrunningFineTuner_VGG16:
         self.model.train()
 
     def test(self):
-        return
         self.model.eval()
         correct = 0
         total = 0
