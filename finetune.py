@@ -177,7 +177,7 @@ class PrunningFineTuner_VGG16:
             optimizer.step()
 
     def train_epoch(self, optimizer = None, rank_filters = False):
-        for i, (batch, label) in enumerate(self.train_data_loader):
+        for i, (batch, label) in tqdm(enumerate(self.train_data_loader)):
             self.train_batch(optimizer, batch, label, rank_filters)
 
     def get_candidates_to_prune(self, num_filters_to_prune):
@@ -251,7 +251,7 @@ def get_args():
     parser.set_defaults(train=False)
     parser.set_defaults(prune=False)
     args = parser.parse_args()
-    args.use_cuda = args.use_cuda and torch.cuda.is_available()
+    args.use_cuda = torch.cuda.is_available()
 
     return args
 
