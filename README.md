@@ -1,3 +1,7 @@
+# Download the FFHQ dataset from here :
+[Kaggle](https://www.kaggle.com/arnaud58/flickrfaceshq-dataset-ffhq)
+
+
 ## PyTorch implementation of  [\[1611.06440 Pruning Convolutional Neural Networks for Resource Efficient Inference\]](https://arxiv.org/abs/1611.06440) ##
 
 This demonstrates pruning a VGG16 based classifier that classifies a small dog/cat dataset.

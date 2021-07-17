@@ -270,7 +270,7 @@ if __name__ == '__main__':
 
     if args.train:
         fine_tuner.train(epoches=10)
-        torch.save(model.state_dict(), "clean_model.pth")
+        torch.save(model, "clean_model.pth")
 
     elif args.prune:
         fine_tuner.prune()

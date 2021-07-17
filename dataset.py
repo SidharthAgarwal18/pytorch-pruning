@@ -19,7 +19,7 @@ from torchvision.transforms import transforms
 import matplotlib.pyplot as plt
 import random
 
-SIZE = 1000
+SIZE = 70000
 
 def read_img(path):
     return Image.fromarray(cv2.cvtColor(cv2.imread(path),cv2.COLOR_BGR2RGB))
