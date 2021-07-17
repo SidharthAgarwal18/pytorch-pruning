@@ -269,7 +269,7 @@ if __name__ == '__main__':
     fine_tuner = PrunningFineTuner_VGG16(args.train_path, args.test_path, model)
 
     if args.train:
-        fine_tuner.train(epoches=10)
+        fine_tuner.train(epoches=15)
         torch.save(model, "clean_model.pth")
 
     elif args.prune:
