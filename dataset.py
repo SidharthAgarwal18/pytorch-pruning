@@ -101,22 +101,27 @@ class ImageDataset(Dataset):
 
         return (tensor_img,tensor_label)
 
-def data_loader(batch_size = 32,num_workers = 0,size = 1000):
+def data_loader(transform = None, batch_size = 32,num_workers = 0,size = 1000):
 
     SIZE = size
 
     input_size = 224
-    train_transform = transforms.Compose([
-        transforms.RandomResizedCrop(input_size),
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
 
-    valid_transform = transforms.Compose([
-        transforms.Resize(input_size),
-        transforms.CenterCrop(input_size),
-        transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
+    if transform == None:
+        train_transform = transforms.Compose([
+            transforms.RandomResizedCrop(input_size),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
+
+        valid_transform = transforms.Compose([
+            transforms.Resize(input_size),
+            transforms.CenterCrop(input_size),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
+    else:
+        train_transform = transform
+        valid_transform = transform
 
     train_data,train_label,val_data,val_label = get_random_sampling()
 
