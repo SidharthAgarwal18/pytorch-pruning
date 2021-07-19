@@ -206,9 +206,9 @@ class PrunningFineTuner_VGG16:
         num_filters_to_prune_per_iteration = 512
         iterations = int(float(number_of_filters) / num_filters_to_prune_per_iteration)
 
-        iterations = int(iterations * 2.0 / 3)
+        iterations = int(iterations/ 4)
 
-        print("Number of prunning iterations to reduce 67% filters", iterations)
+        print("Number of prunning iterations to reduce 25% filters", iterations)
 
         for _ in range(iterations):
             print("Ranking filters.. ")
