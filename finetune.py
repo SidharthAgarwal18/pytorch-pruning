@@ -239,7 +239,7 @@ class PrunningFineTuner_VGG16:
 
         print("Finished. Going to fine tune the model a bit more")
         self.train(optimizer, epoches=10)
-        torch.save(model, "prunned_face_model.pth")
+        torch.save(model, "prunned_face_model2.pth")
 
 def get_args():
     parser = argparse.ArgumentParser()
