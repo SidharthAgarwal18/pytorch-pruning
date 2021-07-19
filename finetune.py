@@ -206,9 +206,9 @@ class PrunningFineTuner_VGG16:
         num_filters_to_prune_per_iteration = 512
         iterations = int(float(number_of_filters) / num_filters_to_prune_per_iteration)
 
-        iterations = int(3*iterations/ 20)
+        iterations = int(iterations/4)
 
-        print("Number of prunning iterations to reduce 15% filters", iterations)
+        print("Number of prunning iterations to reduce 25% filters", iterations)
 
         for _ in range(iterations):
             print("Ranking filters.. ")
@@ -234,11 +234,11 @@ class PrunningFineTuner_VGG16:
             self.test()
             print("Fine tuning to recover from prunning iteration.")
             optimizer = optim.SGD(self.model.parameters(), lr=0.001, momentum=0.9)
-            self.train(optimizer, epoches = 10)
+            self.train(optimizer, epoches = 8)
 
 
         print("Finished. Going to fine tune the model a bit more")
-        self.train(optimizer, epoches=15)
+        self.train(optimizer, epoches=10)
         torch.save(model, "prunned_face_model.pth")
 
 def get_args():
