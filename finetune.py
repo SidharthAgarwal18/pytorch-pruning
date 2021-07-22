@@ -20,7 +20,7 @@ class ModifiedVGG16Model(torch.nn.Module):
     def __init__(self):
         super(ModifiedVGG16Model, self).__init__()
 
-        model = models.vgg16(pretrained=True)
+        model = models.vgg16(pretrained=False)
         self.features = model.features
 
         for param in self.features.parameters():
@@ -269,8 +269,9 @@ if __name__ == '__main__':
     fine_tuner = PrunningFineTuner_VGG16(args.train_path, args.test_path, model)
 
     if args.train:
-        fine_tuner.train(epoches=15)
-        torch.save(model, "clean_face_model.pth")
+        fine_tuner.train(epoches=20)
+        print('\n\nTraining model from scratch...........\n\n\n')
+        torch.save(model, "clean_face_model_scratch.pth")
 
     elif args.prune:
         fine_tuner.prune()
