@@ -16,6 +16,8 @@ from heapq import nsmallest
 import time
 from tqdm import tqdm
 
+MAX_ACCURACY = 0.5
+
 class ModifiedVGG16Model(torch.nn.Module):
     def __init__(self):
         super(ModifiedVGG16Model, self).__init__()
@@ -147,11 +149,15 @@ class PrunningFineTuner_VGG16:
         
         print("Accuracy :", float(correct) / total)
         
+        if ((float(correct)/total) > MAX_ACCURACY):
+            torch.save(model, "clean_face_model_scratch.pth")
+            MAX_ACCURACY =  float(correct)/total
+
         self.model.train()
 
     def train(self, optimizer = None, epoches=10):
         if optimizer is None:
-            optimizer = optim.SGD(model.classifier.parameters(), lr=0.0001, momentum=0.9)
+            optimizer = optim.SGD(model.classifier.parameters(), lr=0.001, momentum=0.9)
 
         for i in range(epoches):
             print("Epoch: ", i)
@@ -269,9 +275,8 @@ if __name__ == '__main__':
     fine_tuner = PrunningFineTuner_VGG16(args.train_path, args.test_path, model)
 
     if args.train:
-        fine_tuner.train(epoches=35)
+        fine_tuner.train(epoches=100)
         print('\n\nTraining model from scratch...........\n\n\n')
-        torch.save(model, "clean_face_model_scratch.pth")
-
+        
     elif args.prune:
         fine_tuner.prune()
