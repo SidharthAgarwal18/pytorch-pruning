@@ -148,8 +148,9 @@ class PrunningFineTuner_VGG16:
         
         print("Accuracy :", float(correct) / total)
         
-        if ((float(correct)/total) > max_accuracy):
+        if ((float(correct)/total) >= max_accuracy):
             torch.save(model, "clean_face_model_scratch.pth")
+            print('Model saved\n')
             max_accuracy =  float(correct)/total
 
         self.model.train()
@@ -276,7 +277,7 @@ if __name__ == '__main__':
     fine_tuner = PrunningFineTuner_VGG16(args.train_path, args.test_path, model)
 
     if args.train:
-        fine_tuner.train(epoches=100,max_accuracy = 0.5)
+        fine_tuner.train(epoches=100,max_accuracy = 0)
         print('\n\nTraining model from scratch...........\n\n\n')
         
     elif args.prune:
