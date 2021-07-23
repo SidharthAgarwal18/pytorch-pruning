@@ -16,7 +16,6 @@ from heapq import nsmallest
 import time
 from tqdm import tqdm
 
-MAX_ACCURACY = 0.5
 
 class ModifiedVGG16Model(torch.nn.Module):
     def __init__(self):
@@ -134,7 +133,7 @@ class PrunningFineTuner_VGG16:
         self.prunner = FilterPrunner(self.model) 
         self.model.train()
 
-    def test(self):
+    def test(self,max_accuracy = 0.5):
         self.model.eval()
         correct = 0
         total = 0
@@ -149,20 +148,21 @@ class PrunningFineTuner_VGG16:
         
         print("Accuracy :", float(correct) / total)
         
-        if ((float(correct)/total) > MAX_ACCURACY):
+        if ((float(correct)/total) > max_accuracy):
             torch.save(model, "clean_face_model_scratch.pth")
-            MAX_ACCURACY =  float(correct)/total
+            max_accuracy =  float(correct)/total
 
         self.model.train()
+        return max_accuracy
 
-    def train(self, optimizer = None, epoches=10):
+    def train(self, optimizer = None, epoches=10,max_accuracy = 0.5):
         if optimizer is None:
             optimizer = optim.SGD(model.classifier.parameters(), lr=0.001, momentum=0.9)
 
         for i in range(epoches):
             print("Epoch: ", i)
             self.train_epoch(optimizer)
-            self.test()
+            max_accuracy = self.test(max_accuracy)
         print("Finished fine tuning.")
         
 
@@ -264,6 +264,7 @@ def get_args():
 if __name__ == '__main__':
     args = get_args()
 
+    
     if args.train:
         model = ModifiedVGG16Model()
     elif args.prune:
@@ -275,7 +276,7 @@ if __name__ == '__main__':
     fine_tuner = PrunningFineTuner_VGG16(args.train_path, args.test_path, model)
 
     if args.train:
-        fine_tuner.train(epoches=100)
+        fine_tuner.train(epoches=100,max_accuracy = 0.5)
         print('\n\nTraining model from scratch...........\n\n\n')
         
     elif args.prune:
